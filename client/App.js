@@ -6,14 +6,15 @@ import {Text, View, Image, Button, StyleSheet, Platform, ImageBackground} from '
 import ImagePicker from 'react-native-image-picker';
 
 export default class App extends React.Component {
-
-
-  /**
-   * This will handle the state on whether an image has been
-   * selected from our gallery.
-   */
-  state = {
-    photo: null,
+  constructor(props){
+    super(props);
+    /**
+     * This will handle the state on whether an image has been
+     * selected from our gallery.
+     */
+    this.state = {
+      photo: null,
+    }
   }
 
   /**
@@ -59,14 +60,11 @@ export default class App extends React.Component {
   cancelPhoto = () => {
     this.setState({
       photo: null,
-    })
+    });
   }
 
-
   render(){
-
     const {photo} = this.state;
-
     return(
        <ImageBackground source={{uri:'https://wallpaperplay.com/walls/full/6/7/9/228147.jpg'}} style={{width: '100%', height: '100%'}}>
           <View style={styles.container}>
@@ -85,7 +83,7 @@ export default class App extends React.Component {
               </React.Fragment>
             )}
             <View style={styles.buttonFormat}>
-              <Button color="#588fb6" title="Choose Photo" onPress={this.handleChoosePhoto} />
+            <Button color="#588fb6" title="Choose Photo" onPress={this.handleChoosePhoto} />
             </View>
           </View>
       </ImageBackground>
