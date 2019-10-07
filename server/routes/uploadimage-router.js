@@ -23,8 +23,15 @@ router.get('/', (req, res) => {
   res.status(200).send('You can post to /api/pictures')
 })
 
-router.get('/posenet', (req, res) => {
-  res.status(200).send('You can now upload to posenet route')
+router.get('/pictures', (req, res) => {
+  Image.find({}, 'img createdAt', (err, img) => {
+    if(err){
+      res.send(err)
+    }
+    console.log(img)
+    res.contentType('json')
+    res.send(img)
+  }).sort({createdAt: 'desc'})
 })
 
 router.post('/pictures', upload.single('productImage'), (req, res) => {
@@ -48,6 +55,7 @@ router.post('/pictures', upload.single('productImage'), (req, res) => {
 
   res.status(200).json({
     message: 'Success!',
+    data: req.file.path,    
   })
 })
 
