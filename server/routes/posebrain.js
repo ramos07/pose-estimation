@@ -9,6 +9,7 @@ const flipHorizontal = false;
 const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser');
+//const poseImage = require('..models/image');
 
 
 router.use(bodyParser.json());
@@ -45,8 +46,8 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
             const img = new Image();
             img.src = imageData;
-            img.width = 34;
-            img.height = 34;
+            img.width = 225;
+            img.height = 225;
             
             const canvas = createCanvas(img.width, img.height);
             const ctx = canvas.getContext('2d');
@@ -57,7 +58,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
             const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
 
-            //console.log(pose); //All the keypoints of the body as JSON data type
+            console.log(pose); //All the keypoints of the body as JSON data type
 
             for(const keypoint of pose.keypoints){
                 console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
@@ -65,10 +66,15 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
             console.log('end');
 
+            //Saving image to database
+            
+
             res.status(200).json({
                 message: 'Got the keypoints!!',
                 data: pose,
             });
+
+
 
         }//end of tryModel async method
 
@@ -78,7 +84,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
         console.log(e);
     }
 
-});
+});//end of POST to /posebrain
 
 module.exports = router;
 
