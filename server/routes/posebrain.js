@@ -25,11 +25,25 @@ const Storage = multer.diskStorage({
 
 const upload = multer({ storage: Storage});
 
+router.get('/uploads', (req, res) => {
+    PoseImage.find({}, (err, img) => {
+        if(err){
+            res.send(err);
+        }
+
+        console.log(img);
+        res.contentType('json');
+        res.send(img);
+    });
+});
+
+
 router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     
     var imageData = fs.readFileSync(req.file.path);
 
     const tryModel = async () => {
+
         console.log('start');
 
         const net = await posenet.load({
@@ -61,7 +75,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
         console.log('end');
 
-        await savePoints();
+        await savePoints(pose);
 
         res.status(200).json({
             message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
@@ -72,6 +86,8 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     const saveImage = async () => {
         
         const poseImage =  new PoseImage();
+        poseImage.img.data = req.file.path;
+        poseImage.img.contentType = req.file.mimetype;
         await poseImage.save()
         .then(img => {
             console.log('Image saved!');
@@ -81,14 +97,14 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     };
 
     const savePoints = async (pose) => {
-        const posePoints = new Points(pose);
+        const posePoints = new Points();
+        posePoints.points.data = pose;
         await posePoints.save()
         .then(points => {
             console.log('Points saved!');
         });
 
     };
-
 
     tryModel();
     saveImage();
