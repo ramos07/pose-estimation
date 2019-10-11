@@ -6,7 +6,7 @@ const PoseImage = new Schema(
         img: {
             data: Buffer, 
             contentType: String
-        }
+        },
     },
 );
 
