@@ -9,8 +9,8 @@ const flipHorizontal = false;
 const fs = require('fs');
 const multer = require('multer');
 const bodyParser = require('body-parser');
-//const poseImage = require('..models/image');
-
+const PoseImage = require('../models/image');
+const Points = require('../models/points');
 
 router.use(bodyParser.json());
 
@@ -25,66 +25,77 @@ const Storage = multer.diskStorage({
 
 const upload = multer({ storage: Storage});
 
-router.get('/posebrain', (req, res) => {
-    res.status(200).send('You can upload images to posebrain');
-});
-
 router.post('/posebrain', upload.single('poseImage'), (req, res) => {
-
+    
     var imageData = fs.readFileSync(req.file.path);
 
-    try{
-        const tryModel = async () => {
-            console.log('start');
-            
-            const net = await posenet.load({
-                architecture: 'MobileNetV1',
-                outputStride: 8,
-                inputResolution: 801,
-                multiplier: 1.0,
-            });
+    const tryModel = async () => {
+        console.log('start');
 
-            const img = new Image();
-            img.src = imageData;
-            img.width = 225;
-            img.height = 225;
-            
-            const canvas = createCanvas(img.width, img.height);
-            const ctx = canvas.getContext('2d');
+        const net = await posenet.load({
+            architecture: 'MobileNetV1',
+            outputStride: 16,
+            inputResolution: 513,
+            multiplier: 0.75,
+        });
 
-            ctx.drawImage(img, 0, 0);
+        const img = new Image();
+        img.src = imageData;
+        img.width = 225;
+        img.height = 225;
+        
+        const canvas = createCanvas(img.width, img.height);
+        const ctx = canvas.getContext('2d');
 
-            const input = await tf.browser.fromPixels(canvas);
+        ctx.drawImage(img, 0, 0);
 
-            const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+        const input = await tf.browser.fromPixels(canvas);
 
-            console.log(pose); //All the keypoints of the body as JSON data type
+        const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
 
-            for(const keypoint of pose.keypoints){
-                console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
-            }
+        console.log(pose); //All the keypoints of the body as JSON data type
 
-            console.log('end');
+        for(const keypoint of pose.keypoints){
+            console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
+        }
 
-            //Saving image to database
-            
+        console.log('end');
 
-            res.status(200).json({
-                message: 'Got the keypoints!!',
-                data: pose,
-            });
+        await savePoints();
+
+        res.status(200).json({
+            message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
+            data: pose,
+        });
+    };
+
+    const saveImage = async () => {
+        
+        const poseImage =  new PoseImage();
+        await poseImage.save()
+        .then(img => {
+            console.log('Image saved!');
+            console.log('file', req.file);
+        });
+
+    };
+
+    const savePoints = async (pose) => {
+        const posePoints = new Points(pose);
+        await posePoints.save()
+        .then(points => {
+            console.log('Points saved!');
+        });
+
+    };
 
 
+    tryModel();
+    saveImage();
+});
 
-        }//end of tryModel async method
-
-        tryModel();
-
-    }catch(e){
-        console.log(e);
-    }
-
-});//end of POST to /posebrain
+router.get('/posebrain', (req, res) => {
+    PoseImage.find({}, 'name ')
+});
 
 module.exports = router;
-
