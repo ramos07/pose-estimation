@@ -37,6 +37,18 @@ router.get('/uploads', (req, res) => {
     });
 });
 
+router.get('/keypoints', (req, res) => {
+    Points.find({}, (err, points) => {
+        if(err){
+            res.send(err);
+        }
+
+        console.log(points);
+
+        res.contentType('json');
+        res.send(points);
+    });
+});
 
 router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     
