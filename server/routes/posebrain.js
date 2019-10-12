@@ -79,7 +79,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
         const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
 
-        console.log(pose); //All the keypoints of the body as JSON data type
+        console.log(pose); 
 
         for(const keypoint of pose.keypoints){
             console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
@@ -88,6 +88,8 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
         console.log('end');
 
         await savePoints(pose);
+
+        await saveImage();
 
         res.status(200).json({
             message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
@@ -119,7 +121,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     };
 
     tryModel();
-    saveImage();
+
 });
 
 router.get('/posebrain', (req, res) => {
