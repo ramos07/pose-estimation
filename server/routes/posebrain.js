@@ -8,6 +8,7 @@ const outputStride = 16;
 const flipHorizontal = false;
 const fs = require('fs');
 const multer = require('multer');
+const image_size = require('image-size');
 const bodyParser = require('body-parser');
 const PoseImage = require('../models/image');
 const Points = require('../models/points');
@@ -65,10 +66,12 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
             multiplier: 0.75,
         });
 
+        const image_dimensions = image_size(imageData);
+
         const img = new Image();
         img.src = imageData;
-        img.width = 225;
-        img.height = 225;
+        img.width = image_dimensions.width;
+        img.height = image_dimensions.height;
         
         const canvas = createCanvas(img.width, img.height);
         const ctx = canvas.getContext('2d');
