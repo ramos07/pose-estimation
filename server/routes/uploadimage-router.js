@@ -1,163 +1,125 @@
-const express = require('express');
-const router = express.Router();
-const posenet = require('@tensorflow-models/posenet');
-const tf = require('@tensorflow/tfjs-node');
-const { createCanvas, Image } = require('canvas');
-const imageScaleFactor = 0.5;
-const outputStride = 16;
-const flipHorizontal = false;
-const fs = require('fs');
-const multer = require('multer');
-const bodyParser = require('body-parser');
-//const poseImage = require('..models/image');
 
+const express = require('express')
+const multer = require('multer')
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const Image = require('../models/image-model')
 
-router.use(bodyParser.json());
+//set up express router
+const router = express.Router()
+router.use(bodyParser.json())
 
+//pose folder
+const poseStorage = multer.diskStorage({
+  destination(req, file, callback){
+    callback(null, './pose')
+  },
+  filename(req, file, callback){
+    callback(null,  `${file.fieldname}_${Date.now()}_${file.originalname}`)
+	    
+  },
+})
+
+//upload folder
 const Storage = multer.diskStorage({
-    destination(req, file, callback){
-        callback(null, './uploads');
-    },
-    filename(req, file, callback){
-        callback(null, `${file.originalname}`);
-    },
-});
+  destination(req, file, callback){
+    callback(null, './uploads')
+  },
+  filename(req, file, callback){
+    callback(null,  `${file.fieldname}_${Date.now()}_${file.originalname}`)
+  },
+})
 
-const PoseStorage = multer.diskStorage({
-    destination(req, file, callback){
-        callback(null, './uploads');
-    },
-    filename(req, file, callback){
-        callback(null, `${file.originalname}`);
-    },
-});
-const upload = multer({ storage: Storage});
-const poseupload = multer({ storage: PoseStorage});
-
-
-router.get('/uploads', (req, res) => {
-    PoseImage.find({}, (err, img) => {
-        if(err){
-            res.send(err);
-        }
-
-        console.log(img);
-        res.contentType('json');
-        res.send(img);
-    });
-});
-
-router.post('/posebrain', poseupload.single('poseImage'), (req, res) => {
-
-    var imageData = fs.readFileSync(req.file.path);
-
-    try{
-        const tryModel = async () => {
-            console.log('start');
-            
-            const net = await posenet.load({
-                architecture: 'MobileNetV1',
-                outputStride: 8,
-                inputResolution: 801,
-                multiplier: 1.0,
-            });
-
-            const img = new Image();
-            img.src = imageData;
-            img.width = 225;
-            img.height = 225;
-            
-            const canvas = createCanvas(img.width, img.height);
-            const ctx = canvas.getContext('2d');
-
-            ctx.drawImage(img, 0, 0);
-
-            const input = await tf.browser.fromPixels(canvas);
-
-            const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
-
-            console.log(pose); //All the keypoints of the body as JSON data type
-
-            for(const keypoint of pose.keypoints){
-                console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
-            }
-
-            console.log('end');
-
-            //Saving image to database
-            
-
-            res.status(200).json({
-                message: 'Got the keypoints!!',
-                data: pose,
-            });
-
-
-
-        }//end of tryModel async method
-
-        tryModel();
-
-    }catch(e){
-        console.log(e);
+router.get('/pose', (req, res) => {
+  Image.find({}, 'img createdAt', (err, img) => {
+    if(err){
+      res.send(err)
     }
+    res.contentType('json')
+    res.send(img)
+	
+  }).sort({createdAt: 'desc'})
+})
 
-});//end of POST to /posebrain
-router.post('/posebrain', upload.single('poseImage'), (req, res) => {
+//poseupload
+const poseupload = multer({ storage: poseStorage})
+//upload upload
+const upload = multer({ storage: Storage})
 
-    var imageData = fs.readFileSync(req.file.path);
+router.get('/', (req, res) => {
+  res.status(200).send('You can post to /api/pictures')
+})
 
-    try{
-        const tryModel = async () => {
-            console.log('start');
-            
-            const net = await posenet.load({
-                architecture: 'MobileNetV1',
-                outputStride: 8,
-                inputResolution: 801,
-                multiplier: 1.0,
-            });
+router.get('/posenet', (req, res) => {
+  res.status(200).send('You can now upload to posenet route')
+})
 
-            const img = new Image();
-            img.src = imageData;
-            img.width = 225;
-            img.height = 225;
-            
-            const canvas = createCanvas(img.width, img.height);
-            const ctx = canvas.getContext('2d');
+router.get('/', (req, res) => {
+  res.status(300).send('You can post to /api/pose')
+})
 
-            ctx.drawImage(img, 0, 0);
+router.get('/posenet', (req, res) => {
+  res.status(300).send('You can now upload to posenet route')
+})
 
-            const input = await tf.browser.fromPixels(canvas);
+router.post('/pictures', upload.single('productImage'), (req, res) => {
 
-            const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+  var imageData = fs.readFirleSync(req.file.path)
 
-            console.log(pose); //All the keypoints of the body as JSON data type
+  const image = new Image({
+    type: 'image/png',
+    data: imageData,
+  })
+  try{
+    image.save()
+    .then(img => {
+      console.log("Image has been saved!")
+      console.log('file', req.file)
+    })
+  }catch(e){
+    console.log(e)
+  }
 
-            for(const keypoint of pose.keypoints){
-                console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
-            }
+  res.status(200).json({
+    message: 'Success!',
+  })
+  
+  res.status(400).json({
+    message: 'Fail!',
+  })
+  
 
-            console.log('end');
+})
 
-            //Saving image to database
-            
+router.post('/pose', poseupload.single('productImage'), (req, res) => {
 
-            res.status(200).json({
-                message: 'Got the keypoints!!',
-                data: pose,
-            });
+  var imageData = fs.readFileSync(req.file.path)
+
+  const image = new Image({
+    type: 'image/png',
+    data: imageData,
+  })
+
+  try{
+    image.save()
+    .then(img => {
+      console.log("Image has been saved!")
+      console.log('file', req.file)
+    })
+  }catch(e){
+    console.log(e)
+  }
+
+  res.status(300).json({
+    message: 'Success!!!!',
+  })
+  
+  res.status(600).json({
+    message: 'Fail!',
+  })
+  
+
+})
 
 
-
-        }//end of tryModel async method
-
-        tryModel();
-
-    }catch(e){
-        console.log(e);
-    }
-
-});//end of POST to /posebrain
-
-module.exports = router;
+module.exports = router
