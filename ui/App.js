@@ -15,11 +15,18 @@ import {
   Alert,
 } from 'react-native';
 
+//Stack Screens
 import LoginScreen from './screens/Login'
 import SignUpScreen from './screens/SignUp'
+import ConfirmScreen from './screens/Confirm'
+import ConfirmPicScreen from './screens/ConfirmPic'
+
+//Tab Screens
 import HomeScreen from './screens/Home'
 import CamScreen from './screens/Cam'
-import ConfirmScreen from './screens/Confirm'
+import DataScreen from './screens/Data'
+import SettingsScreen from './screens/Settings'
+
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -33,6 +40,8 @@ Amplify.configure(aws_exports);
 const TabNavigator = createBottomTabNavigator({
   Home: HomeScreen,
   Cam: CamScreen,
+  Data: DataScreen,
+  Settings: SettingsScreen,
 });
 
 
@@ -41,6 +50,7 @@ const StackNavigator = createStackNavigator({
   Login: LoginScreen,
   SignUp: SignUpScreen,
   Confirm: ConfirmScreen,
+  ConfirmPic: ConfirmPicScreen,
 },
 {
   headerMode: 'none',

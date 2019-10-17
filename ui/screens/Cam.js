@@ -13,6 +13,7 @@ class CamScreen extends React.Component {
                 CameraRoll.saveToCameraRoll(data.uri);
             });
         }
+        this.props.navigation.navigate('ConfirmPic');
     };   
     render(){
         const { isFocused } = this.props
