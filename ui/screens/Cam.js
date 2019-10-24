@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, StyleSheet, Dimensions } from 'react-native';
+import { View, Button, StyleSheet, Dimensions, Alert } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { withNavigationFocus } from 'react-navigation';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -10,6 +10,7 @@ class CamScreen extends React.Component {
         if (this.camera) {
             const options = { quality: 1, base64: true, fixOrientation: true };
             const data = await this.camera.takePictureAsync(options).then(data => {
+                Alert.alert(data.uri, strings.tour_end);
                 CameraRoll.saveToCameraRoll(data.uri);
             });
         }

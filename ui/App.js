@@ -24,6 +24,7 @@ import ConfirmPicScreen from './screens/ConfirmPic'
 //Tab Screens
 import HomeScreen from './screens/Home'
 import CamScreen from './screens/Cam'
+import GalleryScreen from './screens/Gallery'
 import DataScreen from './screens/Data'
 import SettingsScreen from './screens/Settings'
 
@@ -37,9 +38,12 @@ import aws_exports from './aws-exports';
 
 Amplify.configure(aws_exports);
 
+global.username = '';
+
 const TabNavigator = createBottomTabNavigator({
   Home: HomeScreen,
   Cam: CamScreen,
+  Gallery: GalleryScreen,
   Data: DataScreen,
   Settings: SettingsScreen,
 });

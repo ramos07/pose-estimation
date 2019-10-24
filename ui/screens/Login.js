@@ -14,6 +14,7 @@ export default class LoginScreen extends React.Component {
 
     handleSignIn = async() => {
         const { email, password } = this.state;
+        global.username = email;
         Auth.signIn(email, password)
             // If we are successful, navigate to Home screen
             .then(user => this.props.navigation.navigate('Home'))
