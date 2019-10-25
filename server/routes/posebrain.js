@@ -11,7 +11,6 @@ const multer = require('multer');
 const image_size = require('image-size');
 const bodyParser = require('body-parser');
 const PoseImage = require('../models/image');
-const Points = require('../models/points');
 
 router.use(bodyParser.json());
 
@@ -26,7 +25,7 @@ const Storage = multer.diskStorage({
 
 const upload = multer({ storage: Storage});
 
-router.get('/uploads', (req, res) => {
+router.get('/posebrain/uploads', (req, res) => {
     PoseImage.find({}, (err, img) => {
         if(err){
             res.send(err);
@@ -35,19 +34,6 @@ router.get('/uploads', (req, res) => {
         console.log(img);
         res.contentType('json');
         res.send(img);
-    });
-});
-
-router.get('/keypoints', (req, res) => {
-    Points.find({}, (err, points) => {
-        if(err){
-            res.send(err);
-        }
-
-        console.log(points);
-
-        res.contentType('json');
-        res.send(points);
     });
 });
 
@@ -90,9 +76,7 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
         console.log('end');
 
-        await savePoints(pose);
-
-        await saveImage();
+        await saveImage(pose);
 
         res.status(200).json({
             message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
@@ -100,25 +84,18 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
         });
     };
 
-    const saveImage = async () => {
+    const saveImage = async (pose) => {
         
         const poseImage =  new PoseImage();
-        poseImage.img.data = req.file.path;
+
+        poseImage.img.imageName = req.file.originalname;
         poseImage.img.contentType = req.file.mimetype;
+        poseImage.img.points = pose;
+
         await poseImage.save()
         .then(img => {
             console.log('Image saved!');
             console.log('file', req.file);
-        });
-
-    };
-
-    const savePoints = async (pose) => {
-        const posePoints = new Points();
-        posePoints.points.data = pose;
-        await posePoints.save()
-        .then(points => {
-            console.log('Points saved!');
         });
 
     };

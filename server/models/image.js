@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const PoseImage = new Schema(
     {
         img: {
-            data: Buffer, 
-            contentType: String
+            imageName: String, 
+            contentType: String,
+            points: JSON,
         },
     },
 );

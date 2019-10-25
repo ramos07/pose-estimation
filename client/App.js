@@ -37,7 +37,7 @@ export default class App extends React.Component {
    * selected image from the gallery to the server.
    */
   handleUploadPhoto = () => {
-    fetch("http://52.38.40.193:3000/api/posebrain", {
+    fetch("https://vietmex.me/api/posebrain", {
       method: "POST",
       body: createFormData(this.state.photo, {userId: "123"})
     })
