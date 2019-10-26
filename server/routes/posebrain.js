@@ -3,6 +3,8 @@ const router = express.Router();
 const posenet = require('@tensorflow-models/posenet');
 const tf = require('@tensorflow/tfjs-node');
 const PNG = require('png-js');
+var fs = require('fs');
+var path = require('path');
 
 var testHandstand = '/Users/jacksonbursch/Documents/testingApp/PosenetV2/posenet/testHandstand.jpg';
 var personTest = '/Users/jacksonbursch/Documents/testingApp/PosenetV2/posenet/personTest.jpg'; 
