@@ -43,9 +43,10 @@ const tryModel = async() => {
     console.log('end');
     
     var rectSize = 15;
+    var poseLength = pose.keypoints.length;
     var i;
-    for (i = 0; i < 17; i++){
-       ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
+    for (i = 0; i < poseLength; i++){
+	ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
     }
 
 	var buf = canvas.toBuffer();
