@@ -39,6 +39,29 @@ const tryModel = async() => {
         console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
     }
     console.log('end');
+    ctx.fillRect(pose.keypoints[0].position.x, pose.keypoints[0].position.y, 20, 20);
+    ctx.fillRect(pose.keypoints[1].position.x, pose.keypoints[1].position.y, 20, 20);
+    ctx.fillRect(pose.keypoints[2].position.x, pose.keypoints[2].position.y, 20, 20);
+    ctx.fillRect(pose.keypoints[3].position.x, pose.keypoints[3].position.y, 20, 20);
+    ctx.fillRect(pose.keypoints[4].position.x, pose.keypoints[4].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[5].position.x, pose.keypoints[5].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[6].position.x, pose.keypoints[6].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[7].position.x, pose.keypoints[7].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[8].position.x, pose.keypoints[8].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[9].position.x, pose.keypoints[9].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[10].position.x, pose.keypoints[10].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[11].position.x, pose.keypoints[11].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[12].position.x, pose.keypoints[12].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[13].position.x, pose.keypoints[13].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[14].position.x, pose.keypoints[14].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[15].position.x, pose.keypoints[15].position.y, 20, 20);
+ctx.fillRect(pose.keypoints[16].position.x, pose.keypoints[16].position.y, 20, 20);
+
+	var buf = canvas.toBuffer();
+	fs.writeFile('./test.png', buf, 'base64', function(err) {
+  	console.log(err);
+	});
+	
 }
 
 tryModel();
