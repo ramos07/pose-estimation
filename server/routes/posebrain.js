@@ -48,6 +48,43 @@ const tryModel = async() => {
     for (i = 0; i < poseLength; i++){
 	ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
     }
+    //draw those lines bro
+    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+    ctx.lineTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+    ctx.lineTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
+    ctx.lineTo(pose.keypoints[9].position.x, pose.keypoints[9].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+    ctx.lineTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+    ctx.lineTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
+    ctx.lineTo(pose.keypoints[10].position.x, pose.keypoints[10].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+    ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+    ctx.lineTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+    ctx.lineTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
+    ctx.lineTo(pose.keypoints[15].position.x, pose.keypoints[15].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
+    ctx.lineTo(pose.keypoints[16].position.x, pose.keypoints[16].position.y);
+    ctx.stroke();
+    ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+    ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+    ctx.stroke();
 
     var buf = canvas.toBuffer();
     fs.writeFile('./test.png', buf, 'base64', function(err) {
