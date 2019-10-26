@@ -18,12 +18,12 @@ const flipHorizontal = false;
 
 const tryModel = async() => {
     console.log('start');
-        const net = await posenet.load({
+    const net = await posenet.load({
         architecture: 'MobileNetV1',
         outputStride: 16,
         inputResolution: 513,
         multiplier: 0.75
-        });
+    });
     const img = new Image();
     img.src = personTest;
     img.width = 34;
@@ -49,10 +49,10 @@ const tryModel = async() => {
 	ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
     }
 
-	var buf = canvas.toBuffer();
-	fs.writeFile('./test.png', buf, 'base64', function(err) {
-  	console.log(err);
-	});
+    var buf = canvas.toBuffer();
+    fs.writeFile('./test.png', buf, 'base64', function(err) {
+       console.log(err);
+    });
 	
 }
 
