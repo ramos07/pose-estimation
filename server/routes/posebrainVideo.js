@@ -14,8 +14,10 @@ var ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 var ffmpeg = require('ffmpeg');
 var FfmpegCommand = require('fluent-ffmpeg');
 FfmpegCommand.setFfmpegPath(ffmpegPath);
+const rimraf = require('rimraf');
 
-var framePath = '/Users/jacksonbursch/Documents/testingApp/PosenetV2/posenet/charlieFrames/';
+var framePath = '/Users/jacksonbursch/Documents/testingApp/PosenetV2/posenet/nikoleFrames/frames/';
+var videoPath ='/Users/jacksonbursch/Documents/testingApp/PosenetV2/posenet/nikoleFrames/';
 
 const {
     createCanvas, Image
@@ -197,6 +199,8 @@ proc.addInput(framePath + 'pic%1d.png')
 })
 .on('end', function() {
     console.log('video ended loading');
+    //DELTES ALL in path, need to make folders for specific frames
+    rimraf(framePath , function () { console.log('done with deleting all frames'); });
 })
 .on('error', function(error) {
     /// error handling
@@ -206,10 +210,7 @@ proc.addInput(framePath + 'pic%1d.png')
 .output(framePath + 'fourthTest.mp4')
 .run();
 
-fs.unlinkSync(framePath + '*.png');
-fs.unlinkSync(framePath + '*.jpg');
-fs.unlink(framePath + '*.png');
-fs.unlink(framePath + '*.jpg');
+
 }
 
 
