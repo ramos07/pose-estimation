@@ -11,11 +11,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/pose-estimation', {useNewUrlParser: 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static('uploads'));
 
 app.get('/', (req, res) => {
     res.send('Node JS server is up and running');
 });
 
-app.use('/api', poseRoute);
+app.use('/posebrain', poseRoute);
 
 app.listen(API_PORT, () => console.log(`Server running on ${API_PORT}`));
