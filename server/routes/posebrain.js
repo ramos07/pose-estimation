@@ -13,7 +13,9 @@ const bodyParser = require('body-parser');
 const PoseImage = require('../models/image');
 
 router.use(bodyParser.json());
+router.use(express.static('/uploads'));
 
+//Create a storage to keep the images that are being uploade to the server 
 const Storage = multer.diskStorage({
     destination(req, file, callback){
         callback(null, './uploads');
@@ -23,10 +25,13 @@ const Storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: Storage});
+const upload = multer({ storage: Storage}); //Create a variable to route the saving of our images on the server
 
-router.get('/posebrain/uploads', (req, res) => {
+//Display all the images that have been uploaded to the server
+router.get('/images', (req, res) => {
+
     PoseImage.find({}, (err, img) => {
+
         if(err){
             res.send(err);
         }
@@ -34,12 +39,27 @@ router.get('/posebrain/uploads', (req, res) => {
         console.log(img);
         res.contentType('json');
         res.send(img);
+    });cd 
+});
+
+//Get the url of the images on the server
+router.get('/images', (req , res) => {
+    fs.readFile('/uploads' + req.url, function(err, data) {
+        if(err){
+            res.writeHead(404);
+            res.end(JSON.stringify(err));
+            return;
+        }
+
+        res.writeHead(200);
+        res.send(data);
     });
 });
 
-router.post('/posebrain', upload.single('poseImage'), (req, res) => {
+//Post an image to the server, save it, run Tensorflow analysis on the image
+router.post('/', upload.single('poseImage'), (req, res) => {
     
-    var imageData = fs.readFileSync(req.file.path);
+    var imageData = fs.readFileSync(req.file.path); //get the image from our directory
 
     const tryModel = async () => {
 
@@ -79,28 +99,31 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
         await saveImage(pose);
 
         res.status(200).json({
-            message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
+            message: 'Successfull analysis! Body keypoints and image saved to database.',
+            fileUrl: 'http://localhost:3000/posebrain/images/' + req.file.filename,
             data: pose,
         });
     };
 
     const saveImage = async (pose) => {
         
-        const poseImage =  new PoseImage();
+        const poseImage =  new PoseImage(); //Create new object of PoseImage to save into database
 
-        poseImage.img.imageName = req.file.originalname;
-        poseImage.img.contentType = req.file.mimetype;
-        poseImage.img.points = pose;
+        //poseImage.img.imageName = req.file.originalname; //save the name of the image to the database
+        //poseImage.img.contentType = req.file.mimetype; //save the content type of the image to the database
+        poseImage.img.binaryData = fs.readFileSync(req.file.path); //Save the binary buffer of the image to the database
+        //poseImage.bodyPoints.keypoints = pose; //Save the Posenet JSON data to the database
 
-        await poseImage.save()
+        await poseImage.save() //Save the image and the desired characteristics to the database
         .then(img => {
-            console.log('Image saved!');
-            console.log('file', req.file);
+            console.log('Image succesfully saved!');
+            //console.log('file', fs.readFileSync(req.file.path));
+            //console.log('file', fs.readlink(req.file.path));
         });
 
     };
 
-    tryModel();
+    tryModel(); 
 
 });
 
