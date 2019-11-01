@@ -30,6 +30,7 @@ const Storage = multer.diskStorage({
 
 const upload = multer({ storage: Storage});
 
+<<<<<<< Updated upstream
 router.get('/posebrain', (req, res) => {
     res.status(200).send('You can upload images to posebrain');
 });
@@ -37,6 +38,134 @@ router.get('/posebrain', (req, res) => {
 router.post('/posebrain', upload.single('poseImage'), (req, res) => {
 
     var imageData = fs.readFileSync(req.file.path);
+=======
+
+router.get('/uploads', (req, res) => {
+  try{
+    PoseImage.find({}, (err, img) => {
+        console.log(img);
+        res.contentType('json');
+        res.send(img);
+    });
+  }catch(err){
+    console.log(err);
+    next(err);
+    res.status(500);
+  }
+});
+
+
+router.get('/keypoints', (req, res) => {
+  try{
+    Points.find({}, (err, points) => {
+        if(err){
+            res.send(err);
+        }
+        console.log(req);
+        console.log(points);
+
+        res.contentType('json');
+        res.send(points);
+
+    });
+  }catch(err){
+    console.log(err);
+    next(err);
+    res.status(500);
+  }
+});
+
+router.post('/posebrain', upload.single('poseImage'), (req, res) => {
+
+    var imageData = fs.readFileSync(req.file.path);
+    try{
+      const tryModel = async () => {
+
+          console.log('start');
+
+          const net = await posenet.load({
+              architecture: 'MobileNetV1',
+              outputStride: 16,
+              inputResolution: 513,
+              multiplier: 0.75,
+          });
+        }catch(err){
+          console.log(res.json(err));
+        }
+
+        const image_dimensions = image_size(imageData);
+
+        const img = new Image();
+        img.src = imageData;
+        img.width = image_dimensions.width;
+        img.height = image_dimensions.height;
+
+        const canvas = createCanvas(img.width, img.height);
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(img, 0, 0);
+
+        try{
+          const input = await tf.browser.fromPixels(canvas);
+        }catch(err){
+          console.log(error);
+        }
+
+        try{
+          const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+        }catch(err){
+          console.log(error);
+        }
+
+        console.log(pose);
+
+        for(const keypoint of pose.keypoints){
+            console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
+        }
+
+        console.log('end');
+
+        await savePoints(pose);
+
+        await saveImage();
+
+        res.status(200).json({
+            message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
+            data: pose,
+        });
+    };
+
+    const saveImage = async () => {
+
+        const poseImage =  new PoseImage();
+        poseImage.img.data = req.file.path;
+        poseImage.img.contentType = req.file.mimetype;
+        try{
+        await poseImage.save()
+        .then(img => {
+            console.log('Image saved!');
+            console.log('file', req.file);
+        }).catch(){
+          console.log(error);
+          res.json({message: 'Image not saved'})
+        };
+       }
+
+    };
+
+    const savePoints = async (pose) => {
+        const posePoints = new Points();
+        posePoints.points.data = pose;
+        await posePoints.save()
+        .then(points => {
+            console.log('Points saved!');
+        }).catch(function(error)){
+          console.log(error);
+          res.json({message:'Points not saved'})
+        };
+
+    };
+>>>>>>> Stashed changes
 
         const tryModel = async () => {
             console.log('start');

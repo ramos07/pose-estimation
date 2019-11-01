@@ -21,8 +21,16 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+<<<<<<< Updated upstream
     "mongoose": "^5.7.4",
 >>>>>>> Stashed changes
     "multer": "^1.4.2"
+=======
+    "image-size": "^0.8.3",
+    "mongoose": "^5.7.7",
+    "multer": "^1.4.2",
+    "tf": "^1.0.1",
+    "tfjs": "^0.6.0"
+>>>>>>> Stashed changes
   }
 }
