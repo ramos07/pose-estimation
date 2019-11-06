@@ -59,8 +59,9 @@ const saveImage = async (pose) => {
     };
 
 const tryModel = async() => {
-    console.log('start');
 
+    console.log('start');
+    var avgConf = 0;
     const net = await posenet.load({
         architecture: 'MobileNetV1',
         outputStride: 16,
@@ -68,44 +69,79 @@ const tryModel = async() => {
         multiplier: 0.75
     });
 
-var i;
-var frameName = framePath + 'pic_' + i + '.jpg';
-//while(frameName != null){
-for(i = 1; i <103; i++){
+
+for(var i = 1; i < 80; i++){
+
+    //FOR NORMAL IMAGE
     var frameName = framePath + 'pic_' + i + '.jpg';
     console.log(frameName);
-
-    const img = new Image();
+    var img = new Image();
     img.src = frameName;   
-    const canvas = createCanvas(img.width, img.height);
-    const ctx = canvas.getContext('2d');
-
+    var canvas = createCanvas(img.width, img.height);
+    var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    const input = await tf.browser.fromPixels(canvas);
-    const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+    //ctx.filter = 'contrast(1.7)';
+    /*
+    var imageData = ctx.getImageData(0,0, img.width, img.height);
+    imageData = applyContrast(imageData, 75);
+    imageData = applyBrightness(imageData, 50);
+    */
+    var input = await tf.browser.fromPixels(canvas);
+    var pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+    var poseLength = pose.keypoints.length;
     console.log(pose);
+    
+   
+    //FOR FLIPPED IMAGE           
+    ctx.translate(0, img.height);
+    ctx.scale(1, -1);
+    ctx.drawImage(img, 0, 0);
+    var input2 = await tf.browser.fromPixels(canvas);
+    var pose2 = await net.estimateSinglePose(input2, imageScaleFactor, flipHorizontal, outputStride);
+    console.log(pose2);
+    ctx.translate(0, img.height);
+    ctx.scale(1, -1);
+    ctx.drawImage(img, 0, 0);
+            
+     //Choosing the best points       
+    for(var h = 0; h < poseLength; h++){
+        if(pose.keypoints[h].score < pose2.keypoints[h].score){
+            pose.keypoints[h] = pose2.keypoints[h];
+            pose.keypoints[h].position.y = img.height - pose2.keypoints[h].position.y;
+            }
+    }           
+            
+    //average confidence score -- good for testing
+    if (pose.score > pose2.score){
+        avgConf = avgConf + pose.score;
+    } else{
+        avgConf = avgConf + pose2.score;
+    }
+
     /*
     for(const keypoint of pose.keypoints) {
         console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
     }
     console.log('end');
     */
-    var confindenceCutOff1 = .7;
-    var confindenceCutOff2 = .75;
+
+   //Which points do we wanna let in?
+    var confindenceCutOff1 = .48;
+    var confindenceCutOff2 = .65;
     ctx.fillStyle = "#FF0000";
-    var rectSize = 20;
-    var poseLength = pose.keypoints.length;
+    var rectSize = 15;
     var j;
-    for (j = 0; j < poseLength; j++){
-        if(pose.keypoints[j].score > confindenceCutOff1 ){
-            ctx.fillRect(pose.keypoints[j].position.x, pose.keypoints[j].position.y, rectSize, rectSize);
+
+        for (j = 0; j < poseLength; j++){
+            if(pose.keypoints[j].score > confindenceCutOff1 ){
+                ctx.fillRect(pose.keypoints[j].position.x, pose.keypoints[j].position.y, rectSize, rectSize);
+            }
         }
-    }
 
+//save the points to mongodb
 /*
-if (pose.score > .5){
+if (pose.score > .1){
         await saveImage(pose);
-
         console.log('image was saved yo!');
        } else{
         //need to put an error message here that returns back to user
@@ -114,81 +150,24 @@ if (pose.score > .5){
        }    
 */
 
-if((pose.keypoints[5].score > confindenceCutOff2) && (pose.keypoints[6].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
-    ctx.lineTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[5].score > confindenceCutOff2) && (pose.keypoints[7].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
-    ctx.lineTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[5].score > confindenceCutOff2) && (pose.keypoints[11].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
-    ctx.lineTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[7].score > confindenceCutOff2) && (pose.keypoints[9].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
-    ctx.lineTo(pose.keypoints[9].position.x, pose.keypoints[9].position.y);
-    ctx.stroke();
-}
-
-if((pose.keypoints[6].score > confindenceCutOff2) && (pose.keypoints[8].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
-    ctx.lineTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[8].score > confindenceCutOff2) && (pose.keypoints[10].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
-    ctx.lineTo(pose.keypoints[10].position.x, pose.keypoints[10].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[6].score > confindenceCutOff2) && (pose.keypoints[12].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
-    ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[11].score > confindenceCutOff2) && (pose.keypoints[13].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
-    ctx.lineTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[12].score > confindenceCutOff2) && (pose.keypoints[14].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
-    ctx.lineTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[13].score > confindenceCutOff2) && (pose.keypoints[15].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
-    ctx.lineTo(pose.keypoints[15].position.x, pose.keypoints[15].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[14].score > confindenceCutOff2) && (pose.keypoints[16].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
-    ctx.lineTo(pose.keypoints[16].position.x, pose.keypoints[16].position.y);
-    ctx.stroke();
-}
-if((pose.keypoints[11].score > confindenceCutOff2) && (pose.keypoints[12].score > confindenceCutOff2)){
-    ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
-    ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
-    ctx.stroke();
-}
-
-
+//write file as a png to framepath
     var buf = canvas.toBuffer();
 
     fs.writeFile(framePath  + 'pic' + i + '.png', buf, 'base64', function(err) {
         console.log(err);
     });
 
-
+//clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-   }
 
+    }
+    
+//finished video
 console.log('All done!!');
+avgConf = avgConf/i;
+console.log(avgConf);
+
+//put all new frames back into video
 var proc = new FfmpegCommand();
 proc.addInput(framePath + 'pic%1d.png')
 .on('start', function(ffmpegCommand) {
@@ -205,11 +184,10 @@ proc.addInput(framePath + 'pic%1d.png')
 .on('error', function(error) {
     /// error handling
 })
-.addInputOption('-framerate 8')
+.addInputOption('-framerate 20')
 .outputOptions(['-vcodec libx264', '-r 60', '-pix_fmt yuv420p'])
-.output(framePath + 'fourthTest.mp4')
+.output(videoPath + avgConf + 'firstTestFlipCONTRAST.mp4')
 .run();
-
 
 }
 
