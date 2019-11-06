@@ -80,12 +80,6 @@ for(var i = 1; i < 80; i++){
     var canvas = createCanvas(img.width, img.height);
     var ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0);
-    //ctx.filter = 'contrast(1.7)';
-    /*
-    var imageData = ctx.getImageData(0,0, img.width, img.height);
-    imageData = applyContrast(imageData, 75);
-    imageData = applyBrightness(imageData, 50);
-    */
     var input = await tf.browser.fromPixels(canvas);
     var pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
     var poseLength = pose.keypoints.length;
