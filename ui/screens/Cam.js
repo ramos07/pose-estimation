@@ -6,6 +6,9 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 
 class CamScreen extends React.Component { 
+    state = {
+        isRecording: false
+    }
     takePicture = async function() {
         if (this.camera) {
             const options = { quality: 1, base64: true, fixOrientation: true };
@@ -15,7 +18,26 @@ class CamScreen extends React.Component {
             });
         }
         this.props.navigation.navigate('ConfirmPic');
-    };   
+    };
+
+    recordVideo = async function () {
+        if (this.camera) {
+            try {
+                const promise = this.camera.recordAsync({quality: RNCamera.Constants.VideoQuality["1:1"]});
+        
+                if (promise) {
+                    this.setState({ isRecording: true });
+                    const data = await promise;
+                    this.setState({ isRecording: false });
+                    CameraRoll.saveToCameraRoll(data.uri);
+                }
+            } 
+            catch (e) {
+                console.error(e);
+            }
+        }
+    }
+    
     render(){
         const { isFocused } = this.props
         return(
@@ -29,8 +51,12 @@ class CamScreen extends React.Component {
                     
                 />}
                 <Button 
-                    title={'Cap'}
+                    title={'Pic'}
                     onPress={this.takePicture.bind(this)}
+                />
+                <Button
+                    title={'Video'}
+                    onPress={this.state.isRecording ? () => {} : this.recordVideo.bind(this)}
                 />
             </View>
         )
