@@ -1,113 +1,45 @@
-/**
- * Necessary imports.
- */
-import React, {Fragment} from 'react';
-import {Text, View, Image, Button, StyleSheet, Platform} from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import React from 'react'
+import {View, Text, StyleSheet } from 'react-native'
 
-export default class App extends React.Component {
+import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createStackNavigator } from 'react-navigation-stack'
+import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 
-  /**
-   * This will handle the state on wether an image has been
-   * selected from our gallery.
-   */
-  state = {
-    photo: null, 
+import HomeScreen from './screens/Home'
+import CamScreen from './screens/Cam'
+import UploadScreen from './screens/Upload'
+import DataScreen from './screens/Data'
+import SettingsScreen from './screens/Settings'
+
+import LoginScreen from './screens/Login'
+import SignUpScreen from './screens/SignUp'
+import GalleryScreen from './screens/Gallery'
+
+const TabNavigator = createBottomTabNavigator({
+  Home: HomeScreen,
+  Cam: CamScreen,
+  Upload: UploadScreen,
+  Gallery: GalleryScreen,
+  Data: DataScreen,
+  Settings: SettingsScreen,
+})
+
+const StackNavigator = createStackNavigator({
+  Login: LoginScreen,
+  SignUp: SignUpScreen,
+},
+{
+  headerMode: 'none',
+  navigationOptions:{
+    headerVisible: false,
   }
+})
 
-  /**
-   * This method will handle the user selecting an 
-   * image from the gallery.
-   */
-  handleChoosePhoto = () => {
-    const options = {
-      noData: true,
-    }
-    ImagePicker.launchImageLibrary(options, response => {
-      if(response.uri){
-        this.setState({
-          photo: response
-        })
-      }
-    });
-  }//end of handleChoosePhoto method
+const SwitchNavigator = createSwitchNavigator({
+  Auth: StackNavigator,
+  Main: TabNavigator,
+})
 
-  /**
-   * This method will handle the users uploading a 
-   * selected image from the gallery to the server.
-   */
-  handleUploadPhoto = () => {
-    fetch("https://vietmex.me/api/posebrain", {
-      method: "POST",
-      body: createFormData(this.state.photo, {userId: "123"})
-    })
-    .then(response => response.json())
-    .then(response => {
-      console.log("Upload successful!");
-      alert("Upload successful!");
-      this.setState({
-        photo: null,
-      });
-    })
-    .catch(error => {
-      console.log("Upload error!", error);
-      alert(error);
-    });
-  }//end of handleUploadPhoto method
+const App = createAppContainer(SwitchNavigator)
 
-  render(){
-
-    const {photo} = this.state;
-
-    return(
-      <View style={styles.container}>
-        {photo && (
-          <React.Fragment>
-            <Image
-              source={{uri: photo.uri}}
-              style={styles.selectedPhoto}
-            />
-            <Button title="Upload Photo" onPress={this.handleUploadPhoto} />
-          </React.Fragment>
-        )}
-        <Button title="Choose Photo" onPress={this.handleChoosePhoto} />
-      </View>
-    );
-  }
-} //end of render method
-
-/**
- * Create a new form data to send our selected image 
- * information as JSON object.
- */
-const createFormData = (photo, body) => {
-  const data = new FormData();
-
-  data.append("poseImage", {
-    name: photo.fileName,
-    type: photo.type,
-    uri:
-      Platform.OS == "android" ? photo.uri : photo.uri.replace("file://", ""),
-  });
-
-  Object.keys(body).forEach(key => {
-    data.append(key, body[key]);
-  });
-
-  return data;
-}//end of createFormData method
-
-/**
- * Styles that are used on the UI
- */
-styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  selectedPhoto: {
-    width: 300,
-    height: 300,
-  },
-});
+export default App
