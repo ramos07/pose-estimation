@@ -13,7 +13,6 @@ const bodyParser = require('body-parser');
 const PoseImage = require('../models/image');
 
 router.use(bodyParser.json());
-router.use(express.static('/uploads'));
 
 //Create a storage to keep the images that are being uploade to the server 
 const Storage = multer.diskStorage({
@@ -26,35 +25,6 @@ const Storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: Storage}); //Create a variable to route the saving of our images on the server
-
-//Display all the images that have been uploaded to the server
-router.get('/images', (req, res) => {
-
-    PoseImage.find({}, (err, img) => {
-
-        if(err){
-            res.send(err);
-        }
-
-        console.log(img);
-        res.contentType('json');
-        res.send(img);
-    });cd 
-});
-
-//Get the url of the images on the server
-router.get('/images', (req , res) => {
-    fs.readFile('/uploads' + req.url, function(err, data) {
-        if(err){
-            res.writeHead(404);
-            res.end(JSON.stringify(err));
-            return;
-        }
-
-        res.writeHead(200);
-        res.send(data);
-    });
-});
 
 //Post an image to the server, save it, run Tensorflow analysis on the image
 router.post('/', upload.single('poseImage'), (req, res) => {
@@ -96,29 +66,76 @@ router.post('/', upload.single('poseImage'), (req, res) => {
 
         console.log('end');
 
+        var rectSize = 15;
+        var poseLength = pose.keypoints.length;
+        var i;
+        for(i=0; i < poseLength; i++){
+            ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
+        }
+
+        //draw the lines on the image and connect the points with lines
+        ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+        ctx.lineTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+        ctx.lineTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[7].position.x, pose.keypoints[7].position.y);
+        ctx.lineTo(pose.keypoints[9].position.x, pose.keypoints[9].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[5].position.x, pose.keypoints[5].position.y);
+        ctx.lineTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+        ctx.lineTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[8].position.x, pose.keypoints[8].position.y);
+        ctx.lineTo(pose.keypoints[10].position.x, pose.keypoints[10].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[6].position.x, pose.keypoints[6].position.y);
+        ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+        ctx.lineTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+        ctx.lineTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[13].position.x, pose.keypoints[13].position.y);
+        ctx.lineTo(pose.keypoints[15].position.x, pose.keypoints[15].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[14].position.x, pose.keypoints[14].position.y);
+        ctx.lineTo(pose.keypoints[16].position.x, pose.keypoints[16].position.y);
+        ctx.stroke();
+        ctx.moveTo(pose.keypoints[11].position.x, pose.keypoints[11].position.y);
+        ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
+        ctx.stroke();
+
+        var buf = canvas.toBuffer();
+        fs.writeFile('./uploads/'+req.file.originalname, buf, function(err) {
+            console.log(err)
+        })
+
         await saveImage(pose);
 
         res.status(200).json({
-            message: 'Successfull analysis! Body keypoints and image saved to database.',
-            fileUrl: 'http://localhost:3000/posebrain/images/' + req.file.filename,
-            data: pose,
-        });
+            message: 'Successfull analysis! Body keypoints database.',
+            imageName: req.file.originalname,
+            binaryData: buf,
+        })
+
     };
 
     const saveImage = async (pose) => {
         
         const poseImage =  new PoseImage(); //Create new object of PoseImage to save into database
 
-        //poseImage.img.imageName = req.file.originalname; //save the name of the image to the database
-        //poseImage.img.contentType = req.file.mimetype; //save the content type of the image to the database
-        poseImage.img.binaryData = fs.readFileSync(req.file.path); //Save the binary buffer of the image to the database
-        //poseImage.bodyPoints.keypoints = pose; //Save the Posenet JSON data to the database
+        poseImage.img.imageName = req.file.originalname; //save the name of the image to the database
+        poseImage.bodyPoints.keypoints = pose; //Save the Posenet JSON data to the database
 
         await poseImage.save() //Save the image and the desired characteristics to the database
         .then(img => {
             console.log('Image succesfully saved!');
-            //console.log('file', fs.readFileSync(req.file.path));
-            //console.log('file', fs.readlink(req.file.path));
         });
 
     };
