@@ -1,9 +1,0 @@
-{
-	"auth": {
-		"rnnavigationflowe94e8d7d": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	}
-}
