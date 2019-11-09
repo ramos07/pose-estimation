@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const poseRoute = require('./routes/posebrain');
-const poseRouteDraw = require('./routes/posebrainDraw');
 const mongoose = require('mongoose');
 const app = express();
 const API_PORT = 3000;
@@ -17,7 +16,6 @@ app.get('/', (req, res) => {
     res.send('Node JS server is up and running');
 });
 
-//app.use('/posebrain', poseRoute);
-app.use('/posebrain', poseRouteDraw);
+app.use('/posebrain', poseRoute);
 
 app.listen(API_PORT, () => console.log(`Server running on ${API_PORT}`));
