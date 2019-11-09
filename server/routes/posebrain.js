@@ -121,7 +121,7 @@ router.post('/', upload.single('poseImage'), (req, res) => {
         res.status(200).json({
             message: 'Successfull analysis! Body keypoints database.',
             imageName: req.file.originalname,
-            binaryData: buf,
+            //binaryData: buf, //sending the binary data so that we can render image on the client side
         })
 
     };
@@ -131,7 +131,7 @@ router.post('/', upload.single('poseImage'), (req, res) => {
         const poseImage =  new PoseImage(); //Create new object of PoseImage to save into database
 
         poseImage.img.imageName = req.file.originalname; //save the name of the image to the database
-        poseImage.bodyPoints.keypoints = pose; //Save the Posenet JSON data to the database
+        poseImage.img.keypoints = pose; //Save the Posenet JSON data to the database
 
         await poseImage.save() //Save the image and the desired characteristics to the database
         .then(img => {

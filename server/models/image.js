@@ -5,11 +5,6 @@ const PoseImage = new Schema(
     {
         img: {
             imageName: String,
-            imageURL: String,
-            contentType: String,
-            binaryData: Buffer,
-        },
-        bodyPoints: {
             keypoints: JSON,
         },
     },
