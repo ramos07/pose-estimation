@@ -11,7 +11,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const PoseImage = require('../models/image');
 const Points = require('../models/points');
-
+const scoreThreshold = 0.55;
 router.use(bodyParser.json());
 
 const Storage = multer.diskStorage({
@@ -22,9 +22,9 @@ const Storage = multer.diskStorage({
         callback(null, `${file.originalname}`);
     },
 });
-var id = "5db131b036df65331c087aa7"
+//var id = "5db131d836df65331c087aa9"
 const upload = multer({ storage: Storage});
-
+/*
 router.get('/uploads', (req, res) => {
 PoseImage.findById({_id: id}, (err, img) => {
         if(err){
@@ -36,7 +36,19 @@ PoseImage.findById({_id: id}, (err, img) => {
         res.send(img);
     });
 });
+*/
 
+router.get('/uploads', (req, res) => {
+PoseImage.find({}, (err, img) => {
+        if(err){
+            res.send(err);
+        }
+
+        console.log(img);
+        res.contentType('json');
+        res.send(img);
+    });
+});
 
 router.post('/posebrain', upload.single('poseImage'), (req, res) => {
     
@@ -64,19 +76,24 @@ router.post('/posebrain', upload.single('poseImage'), (req, res) => {
         ctx.drawImage(img, 0, 0);
 
         const input = await tf.browser.fromPixels(canvas);
-
-        const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
-
-        console.log(pose); //All the keypoints of the body as JSON data type
-
-        for(const keypoint of pose.keypoints){
-            console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
-        }
-
+		
+        const pose = await net.estimateSinglePose(input,imageScaleFactor, flipHorizontal,outputStride);
+		 //const pose = await net.estimateMultiplepose(input,imageScaleFactor, flipHorizontal,outputStride,scoreThreshold);
+		console.log(pose); //All the keypoints of the body as JSON data type
+	   
+	    if(pose.score<scoreThreshold){
+        console.log('Under 0.55 confidence score');
+        } 
+	     else{
+			 console.log('Over 0.55 Confidence Score');
+		     for(const keypoint of pose.keypoints){		 
+				console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y}, ${keypoint.score})`);
+			 }
+			 console.log('Average confidence score', pose.score);
+	    }
+	   
         console.log('end');
-
         await savePoints(pose);
-
         res.status(200).json({
             message: 'Keypoints retrieved, imaged saved to db, and keypoints saved to db',
             data: pose,
