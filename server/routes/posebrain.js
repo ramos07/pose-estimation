@@ -47,22 +47,37 @@ router.post('/', upload.single('poseImage'), (req, res) => {
         const img = new Image();
         img.src = imageData;
         img.width = image_dimensions.width;
-        img.height = image_dimensions.height;
-        
+        img.height = image_dimensions.height;       
         const canvas = createCanvas(img.width, img.height);
         const ctx = canvas.getContext('2d');
-
         ctx.drawImage(img, 0, 0);
-
         const input = await tf.browser.fromPixels(canvas);
-
         const pose = await net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
-
         console.log(pose); 
+        
+        //FOR FLIPPED IMAGE ACROSS X-AXIS       
+        ctx.translate(0, img.height);
+        ctx.scale(1, -1);
+        ctx.drawImage(img, 0, 0);
+        var input2 = await tf.browser.fromPixels(canvas);
+        var pose2 = await net.estimateSinglePose(input2, imageScaleFactor, flipHorizontal, outputStride);
+        console.log(pose2);
+        ctx.translate(0, img.height);
+        ctx.scale(1, -1);
+        ctx.drawImage(img, 0, 0);
+        
+        //Choosing the best points       
+         for(var h = 0; h < poseLength; h++){
+                if(pose.keypoints[h].score < pose2.keypoints[h].score){
+                    pose.keypoints[h] = pose2.keypoints[h];
+                    pose.keypoints[h].position.y = img.height - pose2.keypoints[h].position.y;
+                }
+         }  
 
         for(const keypoint of pose.keypoints){
             console.log(`${keypoint.part}: (${keypoint.position.x},${keypoint.position.y})`);
         }
+        
 
         console.log('end');
 
