@@ -4,6 +4,7 @@ import { RNCamera } from 'react-native-camera';
 import { withNavigationFocus } from 'react-navigation';
 import CameraRoll from '@react-native-community/cameraroll';
 import { Icon, Slider } from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
 
 
 class CamScreen extends React.Component { 
@@ -16,6 +17,7 @@ class CamScreen extends React.Component {
         zoom: .99,
         flash: RNCamera.Constants.FlashMode.off,
         flashIcon: 'flash-off',
+        photo: null,
     }
     swapStyle = async function () {
         if (this.state.usingCamera == true){
@@ -41,7 +43,6 @@ class CamScreen extends React.Component {
                     CameraRoll.saveToCameraRoll(data.uri);
                 });
             }
-            this.props.navigation.navigate('ConfirmPic');
         }
         else {
             if (this.state.isRecording == true) {
@@ -66,33 +67,6 @@ class CamScreen extends React.Component {
             }
         }
     }
-    takePicture = async function() {
-        if (this.camera) {
-            const options = { quality: 1, base64: true, fixOrientation: true };
-            const data = await this.camera.takePictureAsync(options).then(data => {
-                CameraRoll.saveToCameraRoll(data.uri);
-            });
-        }
-        this.props.navigation.navigate('ConfirmPic');
-    };
-
-    recordVideo = async function () {
-        if (this.camera) {
-            try {
-                const promise = this.camera.recordAsync({quality: RNCamera.Constants.VideoQuality['1080p']});
-        
-                if (promise) {
-                    this.setState({ isRecording: true });
-                    const data = await promise;
-                    this.setState({ isRecording: false });
-                    CameraRoll.saveToCameraRoll(data.uri);
-                }
-            } 
-            catch (e) {
-                console.error(e);
-            }
-        }
-    }
 
     changeFlash = async function () {
         if (this.state.flash == RNCamera.Constants.FlashMode.off) {
@@ -104,6 +78,36 @@ class CamScreen extends React.Component {
         else if (this.state.flash == RNCamera.Constants.FlashMode.auto) {
             this.setState({flashIcon: 'flash-off', flash: RNCamera.Constants.FlashMode.off})
         }
+    }
+
+    selectPhoto = async function () {
+        ImagePicker.launchImageLibrary({storageOptions: {skipBackup: true}}, (image) => {
+            this.setState({
+                photo: image
+            })
+            this.handleUploadPhoto()
+        })
+        //this.handleUploadPhoto.bind(this);
+    }
+
+    handleUploadPhoto = () => {
+        /*fetch("http://52.38.40.193:3000/api/pictures", {
+            method: "POST",
+            body: createFormData(this.state.photo, {userId: "123"})
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log("Upload successful!");
+            alert("Upload successful!");
+            this.setState({
+                photo: null,
+            });
+        })
+        .catch(error => {
+            console.log("Upload error!", error);
+            alert(error);
+        });*/
+        Alert.alert('blah')
     }
     
     render(){
@@ -159,6 +163,15 @@ class CamScreen extends React.Component {
                         size={40}
                     />
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.selectButton} onPress={this.selectPhoto.bind(this)}>
+                    <Icon 
+                        name='arrow-circle-o-up'
+                        type='font-awesome'
+                        color='white'
+                        size={40}
+                    />
+                </TouchableOpacity>
+                
             </View>
         )
     }
@@ -186,8 +199,13 @@ const styles = StyleSheet.create({
         bottom: 7,
     },
     swapButton: {
-        position:"absolute",
+        position:'absolute',
         right: 10,
+        bottom: 7
+    },
+    selectButton: {
+        position:'absolute',
+        left: 10,
         bottom: 7
     },
     flashButton: {
