@@ -8,7 +8,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node"
 * Check your verison by typing "npm -v", make sure it's at least v6.13.4 or better
 * Go into github repo and then into the server directory
-* IMPORTANT - "npm install @tensorflow/tfjs-node"
+* IMPORTANT - type "npm install @tensorflow/tfjs-node" into the command line
 * MongoDB is optional, here's a good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation
 * Type "node index" into command line terminal and make sure it says "Server running on port 3000"
 * Install the very useful testing program [Postman](https://www.postman.com/downloads/)
