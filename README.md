@@ -15,7 +15,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Then create a "POST" request like the example below, fill in "VALUE" field with whichever picture you like
 * Press "Send" and check your upload folder to see your body analyzed!
 <p align="center">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%204.06.50%20PM.png" width="300" height="250" title="Example of Postman">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%204.06.50%20PM.png" width="800" height="250" title="Example of Postman">
 </p>
 
 
