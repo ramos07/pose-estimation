@@ -11,17 +11,11 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Switch into server directory
 * Type "node index.js" into command line terminal
 * You're ready to start uploading pictures locally from your device
+Make sure the camera stays as still as possible when taking video or a picture and try to get the whole body in the picture for best results. Being at least 8 feet away is recommended and it's very important to only have a single person in the video for quality results.
 
 ## How Does it Work?
 ### The Algorithm
 We use a pre-trained Convolutional Neural Network model from Google's Tensorflow called PoseNet. This algorithm identifies 17 keypoints on the body, specifically, ankles, knees, hips, shoulders, elbows, wrists, eyes and nose. Implementation was done on Node.js to allow for dynamic use in our application.
-### The Architecture
-* AWS EC2 Container
-* NGINX
-* LetsEncrypt
-* Node.js
-* MongoDB
-* React.js
 
 ### Example Picture from Device
 <p align="center">
@@ -43,4 +37,34 @@ We use a pre-trained Convolutional Neural Network model from Google's Tensorflow
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.18.55%20AM.png" width="800" height="450" title="Example of frames">
 </p>
 
+## Built With
+* AWS EC2 Container
+* NGINX
+* LetsEncrypt
+* Node.js
+* MongoDB
+* React.js
+
+## Contributing
+
+* Daniel Jackson Bursch
+* Tajbir Sandhu
+* Ricardo Ramos
+
+## Versioning
+
+Version 1
+
+## Authors
+
+* **Daniel Jackson Bursch** - *Initial work* -
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+All the kids that showed me the fascination for learning all different kinds of fun and unique movements.
 
