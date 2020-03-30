@@ -5,12 +5,12 @@ This project was created as our California State University, Long Beach (CSULB) 
 ## Getting Started
 ### "Out of the Box" Backend
 * Clone github repo
-* Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node"
-* Check your verison by typing "npm -v", make sure it's at least v6.13.4 or better
+* Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node" into the Command Line Terminal (CLT)
+* Check your verison by typing "npm -v" into the CLT, make sure it's at least v6.13.4 or better
 * Go into github repo and then into the server directory
-* IMPORTANT - type "npm install @tensorflow/tfjs-node" into the command line
-* MongoDB is optional, here's a good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation
-* Type "node index" into command line terminal and make sure it says "Server running on port 3000"
+* IMPORTANT - type "npm install @tensorflow/tfjs-node" into CLT
+* MongoDB is optional (Good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation)
+* Type "node index" into CLT and make sure it says "Server running on port 3000"
 * Install the very useful testing program [Postman](https://www.postman.com/downloads/)
 * Create a "POST" request like the example below, put desired picture in "VALUE" field, keep the "KEY" the same as shown
 * Press "Send" and check the upload folder in your server directory to see your body analyzed!
