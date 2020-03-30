@@ -20,7 +20,8 @@ This project was created as our California State University, Long Beach (CSULB) 
 <p align="right">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png" width="400" height="350" title="Frames">
 </p>
-Solarized dark             |  Solarized Ocean
-:-------------------------:|:-------------------------:
-![](https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png)  |  ![](https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png)
+<p float="left">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="100" />
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png" width="100" /> 
+</p>
 
