@@ -131,7 +131,7 @@ router.post('/', upload.single('poseImage'), (req, res) => {
 	//Write the new photo to uploads
         var buf = canvas.toBuffer();
             fs.writeFile('./uploads/'+req.file.originalname, buf, function(err) {
-            console.log(err)
+            if (err) throw err;
         })
 
 	/*
