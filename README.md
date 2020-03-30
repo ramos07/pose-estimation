@@ -14,6 +14,10 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Install the very useful testing program [Postman](https://www.postman.com/downloads/)
 * Then create a "POST" request like the example below, fill in "VALUE" field with whichever picture you like
 * Press "Send" and check your upload folder to see your body analyzed!
+<p align="center">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%204.06.50%20PM.png" width="300" height="250" title="Example of Postman">
+</p>
+
 
 ### Tips for Usage
 Make sure the camera stays as still as possible when taking video or a picture and try to get the whole body in the picture for best results. Being at least 8 feet away is recommended and it's very important to only have a single person in the video for quality results.
