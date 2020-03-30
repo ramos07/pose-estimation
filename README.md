@@ -16,7 +16,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 
 <p align="center">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="400" height="350" title="Example Graph">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.13.24%20AM.png" width="700" height="400" title="Example of frames">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.13.24%20AM.png" width="750" height="400" title="Example of frames">
 </p>
 
 
