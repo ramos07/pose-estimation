@@ -25,7 +25,7 @@ Implementation was done on an AWS EC2 Container, with NGINX as our load-balancer
 
 #### Example Video
 <p align="center">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/final_5e26492f8d6e7d00164e69fe_535259%20(1).gif" width="400" height="350" title="Example of uMove video">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/final_5e26492f8d6e7d00164e69fe_535259%20(1).gif" width="300" height="250" title="Example of uMove video">
 </p>
 
 #### Video Analyzation
