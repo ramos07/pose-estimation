@@ -4,6 +4,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 
 ## Getting Started
 ### "Out of the Box" Backend
+* Note: This was done on macOS, so Windows might have some packages that are different but overall same idea
 * Clone github repo
 * Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node" into the Command Line Terminal (CLT)
 * Check your verison by typing "npm -v" into the CLT, make sure it's at least v6.13.4 or better
