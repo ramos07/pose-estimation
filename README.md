@@ -16,7 +16,12 @@ This project was created as our California State University, Long Beach (CSULB) 
 ### The Algorithm
 We use a pre-trained Convolutional Neural Network model from Google's Tensorflow called PoseNet. This algorithm identifies 17 keypoints on the body, specifically, ankles, knees, hips, shoulders, elbows, wrists, eyes and nose. Implementation was done on Node.js to allow for dynamic use in our application.
 ### The Architecture
-Implementation was done on an AWS EC2 Container, with NGINX as our load-balancer, LetsEncrypt for security, and MongoDB for our database. From there we use React.js as our frontend to allow users to upload pictures from their mobile device.
+* AWS EC2 Container
+* NGINX
+* LetsEncrypt
+* Node.js
+* MongoDB
+* React.js
 
 ### Example Picture from Device
 <p align="center">
