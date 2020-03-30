@@ -11,11 +11,11 @@ This project was created as our California State University, Long Beach (CSULB) 
 
 ### Example Video and Graph
 * [Example Video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast being analyzed during a round-off back handspring back layout
-* Below is a graph made from the video using MATLAB which analyzes critical points in different frames of the video (Z axis) from the video above
+* Below is a graph made from the video using MATLAB which analyzes critical points in different frames of the video (Z-axis) from the video above
 * The critical points represent specific points in the tumbling sequence where corrections would be most effective
 
 <p align="center">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="400" height="350" title="Example Graph of Critical Points">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="300" height="250" title="Example Graph of Critical Points">
 </p>
 
 
