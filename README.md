@@ -4,7 +4,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 
 ## Getting Started
 * Clone github repo
-* Make sure to have latest version of React.js, Node.js, and MongoDB downloaded
+* Make sure to have latest version of React-Native, Node.js, and MongoDB downloaded
 * Check /server/package.json for all needed npm modules
 * When installing modules, type into command line "npm install (insert module name here)"
 * Make sure MongoDB is running in the background
@@ -37,13 +37,17 @@ We use a pre-trained Convolutional Neural Network model from Google's Tensorflow
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.18.55%20AM.png" width="800" height="450" title="Example of frames">
 </p>
 
+## Running the tests
+* Jest
+* Enzyme
+
 ## Built With
 * AWS EC2 Container
 * NGINX
 * LetsEncrypt
 * Node.js
 * MongoDB
-* React.js
+* React-Native
 
 ## Contributing
 
