@@ -15,7 +15,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 * The critical points represent key body positions in the tumbling sequence where corrections would be most effective
 
 <p float="left">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="200" />
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png" width="200" /> 
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="300" />
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png" width="300" /> 
 </p>
 
