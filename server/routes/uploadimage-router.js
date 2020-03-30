@@ -142,20 +142,22 @@ router.post('/', upload.single('poseImage'), (req, res) => {
             imageName: req.file.originalname,
             //binaryData: buf, //sending the binary data so that we can render image on the client side
         })
-
-        await deleteImageFromServer();
+        
+        /* 
+	OPTION FOR DELETING PICTURE AFTER GETTING POSE ESTIMATION
+        */
+        //await deleteImageFromServer();
 
     };//end of tryModel method
 
     //Remove the image after analysis has been done on it (OPTIONAL)
-    /*
     const deleteImageFromServer = async () => {
         fs.unlink(req.file.path, (err) => {
             if (err) throw err;
             console.log(req.file.originalname  + ' was deleted');
           });
     }
-    */
+   
 
     //Save the the image name and keypoints for that image to the DB
     const saveImage = async (pose) => {
