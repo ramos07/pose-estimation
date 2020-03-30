@@ -11,6 +11,8 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Switch into server directory
 * Type "node index.js" into command line terminal
 * You're ready to start uploading pictures locally from your device
+
+### Tips for Usage
 Make sure the camera stays as still as possible when taking video or a picture and try to get the whole body in the picture for best results. Being at least 8 feet away is recommended and it's very important to only have a single person in the video for quality results.
 
 ## How Does it Work?
