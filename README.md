@@ -15,7 +15,7 @@ Make sure the camera stays as still as possible when taking video or a picture a
 
 ## How Does it Work?
 ### The Algorithm
-We use a pre-trained Convolutional Neural Network model from Google's Tensorflow called PoseNet. This algorithm identifies 17 keypoints on the body, specifically, ankles, knees, hips, shoulders, elbows, wrists, eyes and nose. Implementation was done on Node.js to allow for dynamic use in our application.
+We use a Convolutional Neural Network Model from Google's Tensorflow called PoseNet. This algorithm identifies 17 keypoints on the body, specifically, ankles, knees, hips, shoulders, elbows, wrists, eyes and nose. Implementation was done on Node.js to allow for dynamic use in our application.
 
 ### Example Picture from Device
 <p align="center">
