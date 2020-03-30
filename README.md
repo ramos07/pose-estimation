@@ -14,8 +14,11 @@ This project was created as our California State University, Long Beach (CSULB) 
 * The graph below is made from the Example Video using MatLab which analyzes critical points in different frames of the video (Z-axis)
 * The critical points represent key body positions in the tumbling sequence where corrections would be most effective
 
-<p align="center">
+<p align="left">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202019-12-05%20at%2011.08.19%20AM.png" width="400" height="350" title="Example Graph of Critical Points">
+</p>
+<p align="right">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%208.44.53%20AM.png" width="400" height="350" title="Frames">
 </p>
 
 
