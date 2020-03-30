@@ -57,7 +57,7 @@ We use a pre-trained Convolutional Neural Network model from Google's Tensorflow
 
 ## Versioning
 
-Version 1
+* Version 1
 
 ## Authors
 
