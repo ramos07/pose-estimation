@@ -12,23 +12,23 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Type "node index.js" into command line terminal
 * You're ready to start uploading pictures locally from your device
 
-### How Does it Work?
-#### The Algorithm
+## How Does it Work?
+### The Algorithm
 We use a pre-trained Convolutional Neural Network model from Google's Tensorflow called PoseNet. This algorithm identifies 17 keypoints on the body, specifically, ankles, knees, hips, shoulders, elbows, wrists, eyes and nose. Implementation was done on Node.js to allow for dynamic use in our application.
-#### The Architecture
+### The Architecture
 Implementation was done on an AWS EC2 Container, with NGINX as our load-balancer, LetsEncrypt for security, and MongoDB for our database. From there we use React.js as our frontend to allow users to upload pictures from their mobile device.
 
-#### Example Picture from Device
+### Example Picture from Device
 <p align="center">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.23.15%20AM.png" width="900" height="350" title="Example of photo from device">
 </p>
 
-#### Example Video
+### Example Video
 <p align="center">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/final_5e26492f8d6e7d00164e69fe_535259%20(1).gif" width="300" height="250" title="Example of uMove video">
 </p>
 
-#### Video Analyzation
+### Video Analyzation
 * [Example Video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast being analyzed during a round-off back handspring back layout
 * The graph below is made from the Example Video using MatLab which analyzes critical points in different frames of the video (Z-axis)
 * The critical points represent key body positions in the tumbling sequence where corrections would be most effective
