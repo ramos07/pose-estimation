@@ -80,10 +80,12 @@ router.post('/', upload.single('poseImage'), (req, res) => {
         
 
         console.log('end');
-
+	
+	//filling in the rectangles on the given body points    
         var rectSize = 15;
         var poseLength = pose.keypoints.length;
         var i;
+	ctx.fillStyle = "#FF0000";
         for(i=0; i < poseLength; i++){
             ctx.fillRect(pose.keypoints[i].position.x, pose.keypoints[i].position.y, rectSize, rectSize);
         }
@@ -126,6 +128,7 @@ router.post('/', upload.single('poseImage'), (req, res) => {
         ctx.lineTo(pose.keypoints[12].position.x, pose.keypoints[12].position.y);
         ctx.stroke();
 
+	//Write the new photo to uploads
         var buf = canvas.toBuffer();
             fs.writeFile('./uploads/'+req.file.originalname, buf, function(err) {
             console.log(err)
