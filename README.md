@@ -10,9 +10,10 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Go into github repo and then into the server directory
 * IMPORTANT - "npm install @tensorflow/tfjs-node"
 * MongoDB is optional, here's a good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation
-* Type "node index" into command line terminal and make sure it says "Server running on port 3000" after
+* Type "node index" into command line terminal and make sure it says "Server running on port 3000"
 * Install the very useful testing program [Postman](https://www.postman.com/downloads/)
-* Then create a "post" request like the example below, fill in "value" field with whichever picture you like
+* Then create a "POST" request like the example below, fill in "VALUE" field with whichever picture you like
+* Press "Send" and check your upload folder to see your body analyzed!
 
 ### Tips for Usage
 Make sure the camera stays as still as possible when taking video or a picture and try to get the whole body in the picture for best results. Being at least 8 feet away is recommended and it's very important to only have a single person in the video for quality results.
