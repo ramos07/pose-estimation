@@ -131,7 +131,11 @@ router.post('/', upload.single('poseImage'), (req, res) => {
             console.log(err)
         })
 
-        await saveImage(pose); 
+	/*
+	OPTIONAL MONGODB FUNCTION BELOW
+	ONLY USE ONCE MONGODB IS SET UP AND RUNNING IN BACKGROUND	
+	*/
+        //await saveImage(pose); 
 
         res.status(200).json({
             message: 'Successfull analysis! Body keypoints database.',
