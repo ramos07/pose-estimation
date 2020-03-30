@@ -12,9 +12,8 @@ This project was created as our California State University, Long Beach (CSULB) 
 * MongoDB is optional, here's a good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation
 * Type "node index" into command line terminal and make sure it says "Server running on port 3000"
 * Install the very useful testing program [Postman](https://www.postman.com/downloads/)
-* Then create a "POST" request like the example below 
-** Fill in "VALUE" field with desired picture, keep the "KEY" the same as shown
-* Press "Send" and check your upload folder to see your body analyzed!
+* Create a "POST" request like the example below, put desired picture in "VALUE" field, keep the "KEY" the same as shown
+* Press "Send" and check the upload folder in your server directory to see your body analyzed!
 <p align="center">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%204.12.40%20PM.png" width="800" height="250" title="Example of Postman">
 </p>
