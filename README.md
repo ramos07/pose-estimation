@@ -11,7 +11,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 </p>
 
 ### Example Video
-<p align="left-center">
+<p align="center">
   <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/final_5e26492f8d6e7d00164e69fe_535259%20(1).gif" width="400" height="350" title="Example of uMove video">
 </p>
 
