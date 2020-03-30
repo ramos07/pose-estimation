@@ -10,7 +10,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 </p>
 
 ### Example Video and Graph
-* Here is a [video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast doing a roundoff back handspring back layout
+* Here is a [video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast doing a round-off back handspring back layout
 * Below is a graph made from the video using MATLAB which analyzing critical points in different frames of the video (z axis)
 * The critical points represent specific points in the tumbling sequence where corrections would be most effective
 
