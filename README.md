@@ -7,7 +7,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 
 ### Example Picture from Device
 <p align="center">
-  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.23.15%20AM.png" width="400" height="350" title="Example of photo from device">
+  <img src="https://github.com/ramos07/pose-estimation/blob/master/videos/Screen%20Shot%202020-03-30%20at%209.23.15%20AM.png" width="800" height="350" title="Example of photo from device">
 </p>
 
 ### Example Video
