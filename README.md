@@ -3,14 +3,16 @@
 This project was created as our California State University, Long Beach (CSULB) Senior Project from January-December 2019. Our goal is to have an application where students of movement can come and have a safe place where they can not only see their movement, but receive corrections as well. Through the use of artificial intelligence and a good architectual framework, we'll be able to start the foundation for a school that empowers its students to become the teachers; with the promise that we will be constantly learning right alongside you. 
 
 ## Getting Started
+### "Out of the Box" Backend
 * Clone github repo
-* Make sure to have latest version of React-Native, Node.js, and MongoDB downloaded
-* Check /server/package.json for all needed npm modules
-* When installing modules, type into command line "npm install (insert module name here)"
-* Make sure MongoDB is running in the background
-* Switch into server directory
-* Type "node index.js" into command line terminal
-* You're ready to start uploading pictures locally from your device
+* Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node"
+* Check your verison by typing "npm -v", make sure it's at least v6.13.4 or better
+* Go into github repo and then into the server directory
+* IMPORTANT - "npm install @tensorflow/tfjs-node"
+* MongoDB is optional, here's a good [guide](https://treehouse.github.io/installation-guides/mac/mongo-mac.html) for installation
+* Type "node index" into command line terminal and make sure it says "Server running on port 3000" after
+* Install the very useful testing program [Postman](https://www.postman.com/downloads/)
+* Then create a "post" request like the example below, fill in "value" field with whichever picture you like
 
 ### Tips for Usage
 Make sure the camera stays as still as possible when taking video or a picture and try to get the whole body in the picture for best results. Being at least 8 feet away is recommended and it's very important to only have a single person in the video for quality results.
