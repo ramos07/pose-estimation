@@ -5,7 +5,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 ## Getting Started
 ### "Out of the Box" Backend
 * Note: This was done on macOS, so Windows might be a little different
-* Make sure to have [homebrew](https://brew.sh/) and [node](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html) installed, if node is not already installed type "brew install nvm" into the Command Line Terminal (CLT) for the package manager
+* Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node" into the Command Line Terminal (CLT) for the package manager
 * Check versions by typing "npm -v" and "node -v" into the CLT, I'm using npm 6.13.4 and node v12.14.1
 * Clone github repo
 * Go into github repo and then into the server directory
