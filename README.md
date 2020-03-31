@@ -7,6 +7,7 @@ This project was created as our California State University, Long Beach (CSULB) 
 * Note: This was done on macOS, so Windows might be a little different
 * Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node" into the Command Line Terminal (CLT)
 * Check versions by typing "npm -v" and "node -v" into the CLT, I'm using npm 6.13.4 and node v12.14.1
+* To change your version of node, type "npm install -g n" (node package manager) then "sudo n 12.14.1"
 * Clone github repo
 * Go into github repo and then into the server directory
 * **IMPORTANT** - type "npm install @tensorflow/tfjs-node" into CLT
