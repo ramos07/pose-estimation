@@ -38,7 +38,7 @@ We use a Convolutional Neural Network Model from Google's Tensorflow called Pose
 </p>
 
 ### Video Analyzation
-* [Example Video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast being analyzed during a round-off back handspring back layout
+* [Video](https://www.youtube.com/watch?v=kk0D3QOK8qk) of a gymnast being analyzed during a round-off back handspring back layout
 * The graph below is made from the Example Video using MatLab which analyzes critical points in different frames of the video (Z-axis)
 * The critical points represent key body positions in the tumbling sequence where corrections would be most effective
 
