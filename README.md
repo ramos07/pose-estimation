@@ -5,8 +5,8 @@ This project was created as our California State University, Long Beach (CSULB) 
 ## Getting Started
 ### "Out of the Box" Backend
 * Note: This was done on macOS, so Windows might have some packages that are different but overall same idea
-* Make sure to have [homebrew](https://brew.sh/) and node installed, if node is not already installed type "brew install node" into the Command Line Terminal (CLT)
-* Check your node version by typing "npm -v" into the CLT, make sure to use v6.13.4
+* Make sure to have [homebrew](https://brew.sh/) and [node](https://michael-kuehnel.de/node.js/2015/09/08/using-vm-to-switch-node-versions.html) installed, if node is not already installed type "brew install nvm" into the Command Line Terminal (CLT) for the package manager
+* Check versions by typing "npm -v" and "node -v" into the CLT, I'm using npm 6.13.4 and node v12.14.1
 * Clone github repo
 * Go into github repo and then into the server directory
 * **IMPORTANT** - type "npm install @tensorflow/tfjs-node" into CLT
